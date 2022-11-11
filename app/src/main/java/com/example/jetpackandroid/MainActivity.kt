@@ -20,7 +20,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        mainViewModel = ViewModelProvider(this).get(MainViewModel()::class.java)
+        mainViewModel = ViewModelProvider(this, MainViewModelFactory(10)).get(MainViewModel::class.java)
+        // yha pe MainViewModelFactory ki help se initial value bhej skte hai
+        // parametr bhej skte hai ViewModelFactory ki help se
 
         textView = findViewById(R.id.counterLabel)
         counterBtn = findViewById(R.id.counterBtn)
