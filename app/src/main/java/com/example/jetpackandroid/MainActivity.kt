@@ -10,22 +10,30 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
 import com.example.jetpackandroid.databinding.ActivityMainBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
-
+    lateinit var database: ContactDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        // BINDING SETUP
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        database = Room.databaseBuilder(applicationContext,
+        ContactDatabase::class.java,
+            "contactDB").build()
 
-        val post = Post("intro to kotlin", "himanshu", "https://static.vecteezy.com/system/resources/thumbnails/002/099/443/small/programming-code-coding-or-hacker-background-programming-code-icon-made-with-binary-code-digital-binary-data-and-streaming-digital-code-vector.jpg")
-        binding.post = post
+        GlobalScope.launch {
+            database.contactDao().insertContact(Contact(0, "himanshu", "5555"))
+
+        }
+
     }
+
 
 }

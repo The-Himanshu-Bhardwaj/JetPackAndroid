@@ -3,14 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-   <!-- this is a data binding layout here -->
-    
-    <data>
-        <!-- jaha se data lena hota hai vo yha likhte hai -->
-       <variable
-           name="post"
-           type="com.example.jetpackandroid.Post" />
-    </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +17,7 @@
 
             android:textSize="25sp"
 
-            android:text="@{post.title}"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -36,7 +28,7 @@
      <TextView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="@{post.description}"
+
          android:id="@+id/postDesc"
          app:layout_constraintLeft_toLeftOf="parent"
          app:layout_constraintRight_toRightOf="parent"
@@ -65,7 +57,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
 
-            imageFromUrl="@{post.url}"
+
             />
 
 
