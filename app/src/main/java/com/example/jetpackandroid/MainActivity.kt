@@ -14,6 +14,7 @@ import androidx.room.Room
 import com.example.jetpackandroid.databinding.ActivityMainBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.Date
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,12 +25,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        database = Room.databaseBuilder(applicationContext,
-        ContactDatabase::class.java,
-            "contactDB").build()
+        database = ContactDatabase.getDatabaseInstance(this)
+
+
 
         GlobalScope.launch {
-            database.contactDao().insertContact(Contact(0, "himanshu", "5555"))
+            database.contactDao().insertContact(Contact(0, "himanshu", "5555", Date()))
 
         }
 
