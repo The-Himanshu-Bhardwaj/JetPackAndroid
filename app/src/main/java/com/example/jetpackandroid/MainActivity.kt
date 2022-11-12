@@ -7,8 +7,10 @@ import android.util.Log
 import android.util.Log.i
 import android.widget.Button
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.jetpackandroid.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -16,42 +18,35 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var mainViewModel: MainViewModel
+    lateinit var binding: ActivityMainBinding
 
-    lateinit var textView : TextView
+
+    lateinit var quoteText : TextView
+    lateinit var authorText : TextView
     lateinit var button: Button
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        textView = findViewById(R.id.counterLabel)
-        button = findViewById(R.id.counterBtn)
+        // BINDING SETUP
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        CoroutineScope(Dispatchers.Main).launch {
+        val quoteObj = Quote("Shri ShivayNamstubhyam", "someone")
+        // yha se quote object bhej diya
+        // xml mein pehle hi bta rkha h ki iss form mein data milega
+        // data milte rhega vo set krta rhega
+        binding.quote = quoteObj
 
-            for (i in 1..10) {
-                delay(1000)
-                mainViewModel.counter = i
-                mainViewModel.updateLiveData()
-            }
-        }
 
-        // OBSERVER
-        mainViewModel.factsLiveData.observe(this, Observer{
-            textView.text = it
 
-            // factslive data pe observer lga diya
-            // jese hi data mein koi change hoga yha pe jo code likha hoga vo execute hoga
 
-        })
+//        quoteText = findViewById(R.id.quoteText) // no need to use this
+//        authorText = findViewById(R.id.authorText) // same as above
+    //        button = findViewById(R.id.counterBtn) / same as above
 
-        button.setOnClickListener{
-//            mainViewModel.updateLiveData()
-        }
+
 
     }
 
