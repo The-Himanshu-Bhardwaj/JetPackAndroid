@@ -3,19 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- alt enter krr k convert kiya hai vese khud bhi bna skte hai
-    bss jo ye upr root element hai usko layout tag k andr daalna hai
-    -->
-
-    <!-- yha pe variable define krdiya ki bhyi iss form mein data milega apne views bind krlo
-    fir main activity mein dekho vha likha hai
-    -->
-
-
+   <!-- this is a data binding layout here -->
+    
     <data>
+        <!-- jaha se data lena hota hai vo yha likhte hai -->
         <variable
-            name="quote"
-            type="com.example.jetpackandroid.Quote" />
+            name="mainViewModel"
+            type="com.example.jetpackandroid.MainViewModel" />
     </data>
 
 
@@ -28,8 +22,10 @@
             android:id="@+id/quoteText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{quote.text}"
+
             android:textSize="25sp"
+
+            android:text="@{mainViewModel.quoteLiveData}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -37,16 +33,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/authorText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{quote.author}"
-            android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/quoteText" />
+     <EditText
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:id="@+id/editText"
+         android:text="@={mainViewModel.quoteLiveData}"
+         app:layout_constraintLeft_toLeftOf="parent"
+         app:layout_constraintRight_toRightOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/quoteText"
+         />
 
+        <!-- yha two way data binding h, edit text mein jo bhi change hoga vo live data mein change
+        kr dega iska formate @={} hai SEE PROPERLY
+        -->
 
         <Button
             android:id="@+id/counterBtn"
@@ -54,11 +53,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Increase COunter"
-            app:layout_constraintHorizontal_bias="0.497"
 
+
+
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/authorText" />
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+        <!-- this onlclick is deprecated android:onClick="@{()-> mainViewModel.updateQuote()}" -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

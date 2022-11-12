@@ -6,4 +6,11 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel: ViewModel() {
 
+    val quoteLiveData = MutableLiveData("a sentence")
+
+    fun updateQuote() {
+        quoteLiveData.value = "another sentence"
+
+    }
+
 }

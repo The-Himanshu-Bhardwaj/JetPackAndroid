@@ -11,19 +11,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.jetpackandroid.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-
-
-    lateinit var quoteText : TextView
-    lateinit var authorText : TextView
-    lateinit var button: Button
+    lateinit var mainViewModel: MainViewModel
 
 
 
@@ -32,20 +25,32 @@ class MainActivity : AppCompatActivity() {
 
         // BINDING SETUP
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        // viewmodel
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        // xml ka yha bhi define kran >>>>>>>>>>>>> NEW
+        binding.mainViewModel = mainViewModel
 
-        val quoteObj = Quote("Shri ShivayNamstubhyam", "someone")
-        // yha se quote object bhej diya
-        // xml mein pehle hi bta rkha h ki iss form mein data milega
-        // data milte rhega vo set krta rhega
-        binding.quote = quoteObj
+        // observing live data - this is also not needed when using binding
+        // bss lifecycle owner btana pdega
+//        mainViewModel.quoteLiveData.observe(this, Observer {
+//            binding.quoteText.text = it
+//        })
+
+        binding.lifecycleOwner = this
+        // live data is lifecycle aware isliye usko btana pdta h h lifecycle owner kon hai
+
+        // agr hum binding use krte h to
+        // binding.mainViewModel = mainViewModel
+        // binding.lifecycleWonwe = this
+
+        // bbs ye 2 extra hote hai
 
 
 
+        binding.counterBtn.setOnClickListener{
+            mainViewModel.updateQuote()
 
-//        quoteText = findViewById(R.id.quoteText) // no need to use this
-//        authorText = findViewById(R.id.authorText) // same as above
-    //        button = findViewById(R.id.counterBtn) / same as above
-
+        }
 
 
     }
