@@ -7,9 +7,9 @@
     
     <data>
         <!-- jaha se data lena hota hai vo yha likhte hai -->
-        <variable
-            name="mainViewModel"
-            type="com.example.jetpackandroid.MainViewModel" />
+       <variable
+           name="post"
+           type="com.example.jetpackandroid.Post" />
     </data>
 
 
@@ -19,13 +19,13 @@
         tools:context=".MainActivity">
 
         <TextView
-            android:id="@+id/quoteText"
+            android:id="@+id/postTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:textSize="25sp"
 
-            android:text="@{mainViewModel.quoteLiveData}"
+            android:text="@{post.title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -33,19 +33,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-     <EditText
+     <TextView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:id="@+id/editText"
-         android:text="@={mainViewModel.quoteLiveData}"
+         android:text="@{post.description}"
+         android:id="@+id/postDesc"
          app:layout_constraintLeft_toLeftOf="parent"
          app:layout_constraintRight_toRightOf="parent"
-         app:layout_constraintTop_toBottomOf="@+id/quoteText"
+         app:layout_constraintTop_toBottomOf="@+id/postTitle"
          />
-
-        <!-- yha two way data binding h, edit text mein jo bhi change hoga vo live data mein change
-        kr dega iska formate @={} hai SEE PROPERLY
-        -->
 
         <Button
             android:id="@+id/counterBtn"
@@ -59,9 +55,19 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintTop_toBottomOf="@+id/postDesc" />
 
-        <!-- this onlclick is deprecated android:onClick="@{()-> mainViewModel.updateQuote()}" -->
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toBottomOf="@id/counterBtn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            imageFromUrl="@{post.url}"
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
