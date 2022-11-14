@@ -19,20 +19,13 @@ import java.util.Date
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var database: ContactDatabase
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        database = ContactDatabase.getDatabaseInstance(this)
 
-
-
-        GlobalScope.launch {
-            database.contactDao().insertContact(Contact(0, "himanshu", "5555", Date()))
-
-        }
 
     }
 
