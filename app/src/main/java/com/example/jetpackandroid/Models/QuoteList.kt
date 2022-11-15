@@ -1,4 +1,4 @@
-package com.example.jetpackandroid
+package com.example.jetpackandroid.Models
 
 data class QuoteList(
     val count: Int,

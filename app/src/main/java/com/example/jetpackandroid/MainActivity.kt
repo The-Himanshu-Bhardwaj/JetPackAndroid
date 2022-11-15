@@ -15,6 +15,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import com.example.jetpackandroid.API.QuoteService
+import com.example.jetpackandroid.API.RetrofitHelper
+import com.example.jetpackandroid.Repository.QuotesRepository
+import com.example.jetpackandroid.ViewModels.MainViewModel
+import com.example.jetpackandroid.ViewModels.MainViewModelFactory
 import com.example.jetpackandroid.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 import java.util.Date
@@ -24,30 +29,24 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
+    lateinit var mainViewModel: MainViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val quoteAPI = RetrofitHelper.getInstance().create(QuotesAPI::class.java)
+        val quoteService = RetrofitHelper.getInstance().create(QuoteService::class.java)
+        // retrofit ka instance quote service mein bnaya hai
+        val repository = QuotesRepository(quoteService)
 
-        GlobalScope.launch {
-            val result = quoteAPI.getQuotes(1)
+        mainViewModel = ViewModelProvider(this, MainViewModelFactory(repository))
+            .get(MainViewModel::class.java)
 
 
-            if (result != null) {
-                Log.d(Constants.TAG, result.body().toString())
-
-                val quoteList = result.body()
-                if (quoteList != null) {
-                    quoteList.results.forEach {
-                        Log.d(Constants.TAG, it.content )
-                    }
-                }
-
-            }
-        }
-
+        mainViewModel.quotes.observe(this, Observer {
+            Log.d(Constants.TAG, it.results.toString())
+        })
 
 
     }
