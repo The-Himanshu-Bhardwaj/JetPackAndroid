@@ -28,27 +28,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val recyclerView = findViewById<RecyclerView>(R.id.programmingList)
-        val adapter = ProgrammingAdapter()
 
-        val p1 = ProgrammingItems(1, "ajsdhb", "dsjh")
-        val p2 = ProgrammingItems(2, "ajsdashb", "dsafdsfajh")
-        val p3 = ProgrammingItems(3, "ajaaasdhb", "dsjadsfah")
+        val quoteAPI = RetrofitHelper.getInstance().create(QuotesAPI::class.java)
 
-        adapter.submitList(listOf(p1, p2, p3))
+        GlobalScope.launch {
+            val result = quoteAPI.getQuotes(1)
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.hasFixedSize()
-        recyclerView.adapter = adapter
 
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(4000)
-            val p4 = ProgrammingItems(3, "ajaaasdhb", "dsjadsfah")
-            val p5 = ProgrammingItems(4, "g", "dsaajh")
-            val p6 = ProgrammingItems(5, "d", "dsja")
+            if (result != null) {
+                Log.d(Constants.TAG, result.body().toString())
 
-            adapter.submitList(listOf(p4, p5, p6))
+                val quoteList = result.body()
+                if (quoteList != null) {
+                    quoteList.results.forEach {
+                        Log.d(Constants.TAG, it.content )
+                    }
+                }
 
+            }
         }
 
 
